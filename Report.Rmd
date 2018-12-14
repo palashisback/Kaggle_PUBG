@@ -54,23 +54,23 @@ factor_names <- c()
 ```{R}
 # Factor I
 fac1
-factor_names <- c(factor_names,'Experience')
+factor_names <- c(factor_names,'experience')
 ```
 
 ```{R}
 # Factor II
 fac2
-factor_names <- c(factor_names,'Patience')
+factor_names <- c(factor_names,'patience')
 ```
 
 ```{R}
 fac3
-factor_names <- c(factor_names,'Offense')
+factor_names <- c(factor_names,'offense')
 ```
 
 ```{R}
 fac4
-factor_names <- c(factor_names,'Survival')
+factor_names <- c(factor_names,'survival')
 ```
 
 ```{R}
@@ -91,4 +91,15 @@ factor_names<-c(factor_names,'Accuracy')
 fac8
 factor_names<-c(factor_names,'vehicle_usage')
 factor_names
+```
+
+```{R}
+colnames(fit$weights) <- factor_names
+unclass(fit$weights)
+```
+
+```{R}
+colnames(fit$scores)<-factor_names
+reduced_solo_data <- cbind(solo_data[,1:2],unclass(fit$scores))
+head(reduced_solo_data)
 ```
