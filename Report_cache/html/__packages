@@ -1,0 +1,10 @@
+base
+ggplot2
+dplyr
+corrplot
+MASS
+psych
+boot
+lattice
+nFactors
+bindrcpp

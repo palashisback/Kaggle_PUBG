@@ -1,0 +1,94 @@
+---
+title: "PUBG Player Statistics Analysis"
+author: "Palash Jain"
+date: "12/14/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,warning = F,message = F,cache = T)
+options(scipen = 999)
+library(ggplot2)
+library(dplyr)
+library(corrplot)
+library(nFactors)
+library(psych)
+```
+
+```{R}
+
+# Loading the data
+rawdata <- read.csv('Data/PUBG_Player_Statistics.csv')
+
+# Split the dataset
+
+solo_data <- cbind(rawdata[,1:2],rawdata[,grepl('solo',names(rawdata))])
+duo_data <- cbind(rawdata[,1:2],rawdata[,grepl('duo',names(rawdata))])
+squad_data <- cbind(rawdata[,1:2],rawdata[,grepl('squad',names(rawdata))])
+```
+
+```{R}
+# Preprocessing the Solo data
+names(solo_data)
+str(solo_data)
+colSums(data.frame(sapply(solo_data,is.na)))
+solo_data<-solo_data[,!sapply(solo_data,var) == 0]
+nScree(solo_data[,-c(1,2)],cor = T)
+
+# Factor Analysis
+fit <- principal(solo_data[,-c(1,2)],nfactors = 8,rotate = 'varimax')
+loadings<-data.frame(unclass(fit$loadings))
+loadings<-cbind(row.names(loadings),loadings)
+rownames(loadings)<-1:nrow(loadings)
+fac1<- arrange(loadings[,1:2],desc(RC1))
+fac2<- arrange(loadings[,c(1,3)],desc(RC2))
+fac3<- arrange(loadings[,c(1,4)],desc(RC3))
+fac4<- arrange(loadings[,c(1,5)],desc(RC4))
+fac5<- arrange(loadings[,c(1,6)],desc(RC7))
+fac6<- arrange(loadings[,c(1,7)],desc(RC5))
+fac7<- arrange(loadings[,c(1,8)],desc(RC8))
+fac8<- arrange(loadings[,c(1,9)],desc(RC6))
+factor_names <- c()
+```
+
+```{R}
+# Factor I
+fac1
+factor_names <- c(factor_names,'Experience')
+```
+
+```{R}
+# Factor II
+fac2
+factor_names <- c(factor_names,'Patience')
+```
+
+```{R}
+fac3
+factor_names <- c(factor_names,'Offense')
+```
+
+```{R}
+fac4
+factor_names <- c(factor_names,'Survival')
+```
+
+```{R}
+fac5
+factor_names <- c(factor_names,'kills')
+```
+
+```{R}
+fac6
+factor_names<-c(factor_names,'trolling')
+```
+
+```{R}
+fac7
+factor_names<-c(factor_names,'Accuracy')
+```
+```{R}
+fac8
+factor_names<-c(factor_names,'vehicle_usage')
+factor_names
+```
